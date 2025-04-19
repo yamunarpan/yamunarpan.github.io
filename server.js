@@ -5,8 +5,15 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
+
+// 🔧 Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 // 🔸 Middleware
 app.use(cors());
@@ -26,7 +33,7 @@ const Report = mongoose.model('Report', {
 
 // 🔸 File upload setup (Multer)
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
+  destination: (req, file, cb) => cb(null, uploadsDir),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
 });
 const upload = multer({ storage });
@@ -61,7 +68,7 @@ app.get('/api/events', async (req, res) => {
 });
 
 // 🔸 Serve uploaded images
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(uploadsDir));
 
 // 🔸 Serve frontend static files
 app.use(express.static(path.join(__dirname, 'backend')));

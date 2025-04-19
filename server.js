@@ -1,4 +1,3 @@
-// 🔸 Load environment variables
 require('dotenv').config();
 
 const express = require('express');
@@ -73,6 +72,11 @@ htmlPages.forEach(page => {
   app.get(`/${page === 'index' ? '' : page}`, (req, res) => {
     res.sendFile(path.join(__dirname, 'backend', `${page}.html`));
   });
+});
+
+// 🔸 Redirect root to frontend GitHub Pages (Render won't host frontend)
+app.get('/', (req, res) => {
+  res.redirect('https://yamunarpan.github.io');
 });
 
 // 🔸 Start server

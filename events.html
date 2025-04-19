@@ -179,10 +179,11 @@
 
   <script>
     const eventContainer = document.getElementById('eventContainer');
+    const backendBaseURL = 'https://yamunarpan-github-io.onrender.com';
 
     async function fetchReports() {
       try {
-        const res = await fetch('/api/events');
+        const res = await fetch(`${backendBaseURL}/api/events`);
         const reports = await res.json();
 
         if (!Array.isArray(reports) || reports.length === 0) {
@@ -196,7 +197,7 @@
           const div = document.createElement('div');
           div.className = 'event-card';
           div.innerHTML = `
-            <img src="${report.imageUrl}" alt="Report Image" />
+            <img src="${backendBaseURL}${report.imageUrl}" alt="Report Image" />
             <p><strong>Location:</strong> ${report.location || 'Not specified'}</p>
             <p><strong>Reported:</strong> ${new Date(report.timestamp).toLocaleString()}</p>
             <p style="color: #4b5563;">This area needs cleanup support. Take the challenge!</p>

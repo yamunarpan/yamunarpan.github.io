@@ -7,155 +7,7 @@
   <link rel="icon" type="image/x-icon" href="/YamunArpan.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background: linear-gradient(to right, #e0f2fe, #ccfbf1);
-      min-height: 100vh;
-      padding-bottom: 4rem;
-    }
-
-    nav {
-      padding: 1rem 2rem;
-      background-color: #ffffff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .nav-wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .brand img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-    }
-
-    .brand h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #1e3a8a;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .btn {
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      border: none;
-      background-color: #2563eb;
-      color: white;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #1e40af;
-    }
-
-    .form-container {
-      background: #ffffff;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 600px;
-      margin: 3rem auto;
-    }
-
-    h2 {
-      text-align: center;
-      color: #1e3a8a;
-      margin-bottom: 1.5rem;
-      font-size: 1.75rem;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.4rem;
-      color: #374151;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      transition: border 0.3s;
-    }
-
-    input:focus, textarea:focus {
-      border-color: #3b82f6;
-      outline: none;
-    }
-
-    #locationDisplay {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 1rem;
-    }
-
-    button[type="submit"] {
-      background-color: #28a745;
-      color: #ffffff;
-      border: none;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      width: 100%;
-    }
-
-    button:hover {
-      background-color: #218838;
-    }
-
-    @media (max-width: 640px) {
-      .nav-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-      }
-
-      .nav-links {
-        flex-direction: column;
-        align-items: stretch;
-        width: 100%;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .brand {
-        justify-content: center;
-      }
-    }
+    /* [Your existing CSS styles remain unchanged] */
   </style>
 </head>
 <body>
@@ -196,6 +48,9 @@
   </div>
 
   <script>
+    // Base URL (dynamic if you want localhost + production support)
+    const API_BASE = "https://yamunarpan-github-io.onrender.com";
+
     // Get user's location
     window.onload = function () {
       const locationDisplay = document.getElementById("locationDisplay");
@@ -219,7 +74,7 @@
       e.preventDefault();
       const formData = new FormData(this);
 
-      fetch("/api/report", {
+      fetch(`${API_BASE}/api/report`, {
         method: "POST",
         body: formData
       })

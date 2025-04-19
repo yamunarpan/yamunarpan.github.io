@@ -16,7 +16,11 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // 🔸 Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://yamunarpan.github.io',
+  methods: ['GET', 'POST'],
+  credentials: false
+}));
 app.use(express.json());
 
 // 🔸 MongoDB connection

@@ -13,38 +13,36 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔸 Serve uploaded images
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-// 🔸 Serve static frontend files
-app.use(express.static(path.join(__dirname, 'backend')));
-
-// 🔸 Connect to MongoDB
+// 🔸 MongoDB connection
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
-// 🔸 Define Report schema
+// 🔸 Mongoose schema
 const Report = mongoose.model('Report', {
   location: String,
   imageUrl: String,
   timestamp: { type: Date, default: Date.now },
 });
 
-// 🔸 Setup multer for file uploads
+// 🔸 File upload setup (Multer)
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, '/uploads')),
+  destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
 });
 const upload = multer({ storage });
 
-// 🔸 API: Submit a new report
+// 🔸 API: Submit report
 app.post('/api/report', upload.single('photo'), async (req, res) => {
   try {
-    const location = req.body.location || 'Unknown';
+    const location = req.body.location || (req.body.latitude && req.body.longitude
+      ? `Lat: ${req.body.latitude}, Lon: ${req.body.longitude}`
+      : 'Unknown');
+
     const imageUrl = `/uploads/${req.file.filename}`;
     const report = new Report({ location, imageUrl });
     await report.save();
+
     res.json({ success: true });
   } catch (err) {
     console.error("❌ Error saving report:", err);
@@ -52,7 +50,7 @@ app.post('/api/report', upload.single('photo'), async (req, res) => {
   }
 });
 
-// 🔸 API: Get all reports (used for events)
+// 🔸 API: Get all reports (for events)
 app.get('/api/events', async (req, res) => {
   try {
     const reports = await Report.find().sort({ timestamp: -1 });
@@ -63,11 +61,17 @@ app.get('/api/events', async (req, res) => {
   }
 });
 
-// 🔸 Serve frontend HTML pages
+// 🔸 Serve uploaded images
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+// 🔸 Serve frontend static files
+app.use(express.static(path.join(__dirname, 'backend')));
+
+// 🔸 Serve individual HTML pages
 const htmlPages = ['index', 'report', 'events', 'ngo', 'userbdg'];
 htmlPages.forEach(page => {
   app.get(`/${page === 'index' ? '' : page}`, (req, res) => {
-    res.sendFile(path.join(__dirname, `/${page}.html`));
+    res.sendFile(path.join(__dirname, 'backend', `${page}.html`));
   });
 });
 

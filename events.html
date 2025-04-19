@@ -182,7 +182,7 @@
 
     async function fetchReports() {
       try {
-        const res = await fetch('/api/events');
+        const res = await fetch('/api/reports');
         const reports = await res.json();
 
         if (!Array.isArray(reports) || reports.length === 0) {

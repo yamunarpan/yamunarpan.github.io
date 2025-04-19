@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full w-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yamuna Saviour Badge | YamunArpan</title>
+  <link rel="icon" type="image/png" href="/YamunArpan.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/2c15cc0cc7.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #e0f2fe, #ecfdf5);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      background-color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    nav h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-left: 1rem;
+    }
+
+    nav .left, nav .right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .badge {
+      max-width: 500px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      margin-top: 1rem;
+    }
+
+    .message {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #16a34a;
+      margin-top: 1.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav .right {
+        margin-top: 1rem;
+      }
+
+      .message {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="left">
+      <img src="/YamunArpan.png" alt="Logo" />
+      <h1>YamunArpan</h1>
+    </div>
+    <div class="right">
+      <a href="/"><button class="btn">Home</button></a>
+      <a href="/report"><button class="btn">Report</button></a>
+      <a href="/ngo"><button class="btn">NGO</button></a>
+      <a href="/events"><button class="btn">Events</button></a>
+    </div>
+  </nav>
+
+  <main>
+    <h2 class="message">Congratulations! You’ve earned the Yamuna Saviour Badge 🎉</h2>
+    <img src="/user-badge.png" alt="Yamuna Saviour Badge" class="badge" />
+  </main>
+
+  <footer>
+    © 2025 YamunArpan. Keep making a difference!
+  </footer>
+
+</body>
+</html>

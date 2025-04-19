@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YamunArpan Badge Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ff6ec4, #fbcf33);
+      text-align: center;
+      padding: 30px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 8px;
+      font-size: 16px;
+    }
+    canvas {
+      margin-top: 20px;
+      border: 2px solid #333;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>YamunArpan Badge Generator</h1>
+  <input type="text" id="nameInput" placeholder="Enter Member's Name" />
+  <br/>
+  <input type="text" id="ngoInput" placeholder="Enter NGO's Name" />
+  <br/>
+  <button id="generateBtn">Generate Badge</button>
+  <button onclick="downloadBadge()">Download</button>
+  <br/>
+  <canvas id="badgeCanvas" width="768" height="1222"></canvas>
+
+  <script>
+    const canvas = document.getElementById("badgeCanvas");
+    const ctx = canvas.getContext("2d");
+    const badgeImage = new Image();
+
+    // Replace this with your image path or URL
+    badgeImage.src = "ngo-member-bdg.png";
+
+    // Wait until image is loaded
+    let isImageLoaded = false;
+    badgeImage.onload = () => {
+      isImageLoaded = true;
+      console.log("Image loaded successfully.");
+    };
+    badgeImage.onerror = () => {
+      alert("Failed to load image. Please check the filename or path.");
+    };
+
+    document.getElementById("generateBtn").addEventListener("click", () => {
+      const name = document.getElementById("nameInput").value.trim();
+      const ngo = document.getElementById("ngoInput").value.trim();
+
+      if (!name || !ngo) {
+        alert("Please enter both name and NGO.");
+        return;
+      }
+
+      if (!isImageLoaded) {
+        alert("Image not loaded yet. Please wait or check the image path.");
+        return;
+      }
+
+      // Clear canvas and draw
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(badgeImage, 0, 0, canvas.width, canvas.height);
+
+      ctx.textAlign = "center";
+      ctx.fillStyle = "black";
+
+      // Draw Name
+      ctx.font = "bold 90px Arial";
+      ctx.fillText(name, canvas.width / 2, 880);
+
+      // Draw NGO
+      ctx.font = "40px Arial";
+      ctx.fillText(ngo, canvas.width / 2, 980);
+    });
+
+    function downloadBadge() {
+      const link = document.createElement("a");
+      link.download = "YamunArpan_Badge.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+  </script>
+</body>
+</html>

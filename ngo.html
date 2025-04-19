@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full w-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NGO Registration | YamunArpan</title>
+  <link rel="icon" type="image/x-icon" href="/YamunArpan.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/2c15cc0cc7.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(to right, #e0f2fe, #ccfbf1);
+      min-height: 100vh;
+      padding-bottom: 4rem;
+    }
+
+    nav {
+      padding: 1rem 2rem;
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    .brand h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: none;
+      background-color: #2563eb;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #1e40af;
+    }
+
+    .form-container {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      margin: 3rem auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1e3a8a;
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: #374151;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #3b82f6;
+      outline: none;
+    }
+
+    button[type="submit"],
+    .form-container a button {
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      margin-bottom: 0.75rem;
+    }
+
+    .form-container a button {
+      background-color: #10b981;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 640px) {
+      .nav-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="nav-wrapper">
+      <div class="brand">
+        <img src="/YamunArpan.png" alt="Yamuna Cleanup Mission Logo">
+        <h1>YamunArpan</h1>
+      </div>
+      <div class="nav-links">
+        <button class="btn" onclick="document.body.classList.toggle('dark')">🌙</button>
+        <a href="/"><button class="btn" style="background:white; color:#2563eb;">Home</button></a>
+        <a href="/report"><button class="btn">Report</button></a>
+        <a href="/ngo"><button class="btn">NGO</button></a>
+        <a href="/events"><button class="btn">Events</button></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Registration Form -->
+  <div class="form-container">
+    <h2>Register Your NGO</h2>
+    <form>
+      <label for="ngo-name">NGO Name</label>
+      <input type="text" id="ngo-name" name="ngo-name" required />
+
+      <label for="founder">Founder Name</label>
+      <input type="text" id="founder" name="founder" required />
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required />
+
+      <label for="location">Office Address</label>
+      <textarea id="location" name="location" rows="3" required></textarea>
+
+      <label for="appliances">Appliances [garbage cleaning tools/vehicles]</label>
+      <textarea id="appliances" name="appliances" rows="3" required></textarea>
+
+      <label for="mission">Mission Statement</label>
+      <textarea id="mission" name="mission" rows="4" required></textarea>
+
+      <button type="submit">Register NGO</button>
+    </form>
+    <a href="/ngobdg"><button>Download Certificate</button></a>
+  </div>
+
+</body>
+</html>

@@ -189,25 +189,24 @@
 
       <div id="locationDisplay">Detecting your location...</div>
 
-      <input type="hidden" id="latitude" name="latitude" />
-      <input type="hidden" id="longitude" name="longitude" />
+      <input type="hidden" id="location" name="location" />
 
       <button type="submit">Submit Report</button>
     </form>
   </div>
 
   <script>
-    // Grab user's current location
+    // Get user's location
     window.onload = function () {
       const locationDisplay = document.getElementById("locationDisplay");
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          document.getElementById("latitude").value = lat;
-          document.getElementById("longitude").value = lon;
-          locationDisplay.textContent = `📍 Location: Latitude ${lat.toFixed(4)}, Longitude ${lon.toFixed(4)}`;
-        }, function (error) {
+          const lat = position.coords.latitude.toFixed(4);
+          const lon = position.coords.longitude.toFixed(4);
+          const loc = `Lat: ${lat}, Lon: ${lon}`;
+          document.getElementById("location").value = loc;
+          locationDisplay.textContent = `📍 Location: ${loc}`;
+        }, function () {
           locationDisplay.textContent = "⚠️ Location access denied or unavailable.";
         });
       } else {
@@ -215,10 +214,9 @@
       }
     };
 
-    // Handle form submission
+    // Submit report
     document.getElementById("reportForm").addEventListener("submit", function (e) {
       e.preventDefault();
-
       const formData = new FormData(this);
 
       fetch("/api/report", {
@@ -228,15 +226,10 @@
       .then(response => response.json())
       .then(data => {
         alert("✅ Report submitted successfully!");
-        document.getElementById("reportForm").reset();
+        this.reset();
         document.getElementById("locationDisplay").textContent = "Detecting your location...";
-
-        // Track user report count in localStorage
-        let count = parseInt(localStorage.getItem("reportCount") || "0");
-        count++;
-        localStorage.setItem("reportCount", count);
-
-        if (count === 4) {
+        localStorage.setItem("reportCount", (parseInt(localStorage.getItem("reportCount") || "0") + 1));
+        if (parseInt(localStorage.getItem("reportCount")) === 4) {
           alert("🎉 You've submitted 4 reports! You can now claim your certificate.");
           window.location.href = "/userbdg.html";
         }

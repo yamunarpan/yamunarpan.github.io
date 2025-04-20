@@ -196,8 +196,12 @@
         reports.forEach(report => {
           const div = document.createElement('div');
           div.className = 'event-card';
+
+          // If the imageUrl is already a Cloudinary URL, use it directly
+          const imageSrc = report.imageUrl.startsWith('http') ? report.imageUrl : `${backendBaseURL}${report.imageUrl}`;
+
           div.innerHTML = `
-            <img src="${backendBaseURL}${report.imageUrl}" alt="Report Image" />
+            <img src="${imageSrc}" alt="Report Image" />
             <p><strong>Location:</strong> ${report.location || 'Not specified'}</p>
             <p><strong>Reported:</strong> ${new Date(report.timestamp).toLocaleString()}</p>
             <p style="color: #4b5563;">This area needs cleanup support. Take the challenge!</p>

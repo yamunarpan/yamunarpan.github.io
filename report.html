@@ -156,6 +156,11 @@
         justify-content: center;
       }
     }
+    #certificateBtn {
+      display: none;
+      margin-top: 1rem;
+      background-color: #6b21a8;
+    }
   </style>
 </head>
 <body>
@@ -188,59 +193,98 @@
       <input type="file" id="photo" name="photo" accept="image/*" required />
 
       <div id="locationDisplay">Detecting your location...</div>
-
       <input type="hidden" id="location" name="location" />
+      <input type="hidden" id="imageUrl" name="imageUrl" />
 
       <button type="submit">Submit Report</button>
     </form>
+
+    <button id="certificateBtn" class="btn" onclick="window.location.href='/userbdg.html'">
+      🎓 Claim Certificate
+    </button>
   </div>
 
   <script>
-    // Base URL (dynamic if you want localhost + production support)
     const API_BASE = "https://yamunarpan-github-io.onrender.com";
+    const CLOUDINARY_UPLOAD_URL = "https://api.cloudinary.com/v1_1/dvikpg6wq/image/upload";
+    const CLOUDINARY_UPLOAD_PRESET = "unsigned"; // replace with your preset name if needed
 
-    // Get user's location
     window.onload = function () {
       const locationDisplay = document.getElementById("locationDisplay");
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+        navigator.geolocation.getCurrentPosition(position => {
           const lat = position.coords.latitude.toFixed(4);
           const lon = position.coords.longitude.toFixed(4);
           const loc = `Lat: ${lat}, Lon: ${lon}`;
           document.getElementById("location").value = loc;
           locationDisplay.textContent = `📍 Location: ${loc}`;
-        }, function () {
+        }, () => {
           locationDisplay.textContent = "⚠️ Location access denied or unavailable.";
         });
       } else {
         locationDisplay.textContent = "❌ Geolocation not supported by your browser.";
       }
+
+      const count = parseInt(localStorage.getItem("reportCount") || "0");
+      if (count >= 4) {
+        document.getElementById("certificateBtn").style.display = "block";
+      }
     };
 
-    // Submit report
-    document.getElementById("reportForm").addEventListener("submit", function (e) {
+    document.getElementById("reportForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const formData = new FormData(this);
+      const form = this;
+      const photo = document.getElementById("photo").files[0];
+      const location = document.getElementById("location").value;
+      const description = document.getElementById("description").value;
 
-      fetch(`${API_BASE}/api/report`, {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        alert("✅ Report submitted successfully!");
-        this.reset();
-        document.getElementById("locationDisplay").textContent = "Detecting your location...";
-        localStorage.setItem("reportCount", (parseInt(localStorage.getItem("reportCount") || "0") + 1));
-        if (parseInt(localStorage.getItem("reportCount")) === 4) {
-          alert("🎉 You've submitted 4 reports! You can now claim your certificate.");
-          window.location.href = "/userbdg.html";
+      if (!photo) {
+        alert("❗ Please upload a photo.");
+        return;
+      }
+
+      try {
+        // Upload image to Cloudinary
+        const formData = new FormData();
+        formData.append("file", photo);
+        formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+        const cloudRes = await fetch(CLOUDINARY_UPLOAD_URL, {
+          method: "POST",
+          body: formData
+        });
+        const cloudData = await cloudRes.json();
+        const imageUrl = cloudData.secure_url;
+
+        // Submit to backend
+        const payload = {
+          location,
+          imageUrl
+        };
+
+        const response = await fetch(`${API_BASE}/api/report`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          alert("✅ Report submitted successfully!");
+          form.reset();
+          localStorage.setItem("reportCount", (parseInt(localStorage.getItem("reportCount") || "0") + 1));
+
+          const count = parseInt(localStorage.getItem("reportCount"));
+          if (count >= 4) {
+            document.getElementById("certificateBtn").style.display = "block";
+          }
+        } else {
+          throw new Error("Server error");
         }
-      })
-      .catch(error => {
-        console.error("Error:", error);
+      } catch (err) {
+        console.error(err);
         alert("❌ Failed to submit report.");
-      });
+      }
     });
   </script>
 </body>

@@ -1,3 +1,4 @@
+// Load environment variables
 require('dotenv').config();
 
 const express = require('express');
@@ -5,15 +6,34 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
+
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const app = express();
 
-// 🔧 Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, '../uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+// ✅ Check required ENV variables
+if (!process.env.MONGO_URL) {
+  console.error('❌ MONGO_URL not defined. Set it in Render dashboard.');
+  process.exit(1);
 }
+if (!process.env.CLOUDINARY_URL) {
+  console.error('❌ CLOUDINARY_URL not defined. Set it in Render dashboard.');
+  process.exit(1);
+}
+
+// 🔧 Cloudinary Config
+cloudinary.config(); // uses CLOUDINARY_URL automatically
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'yamuna-reports',
+    allowed_formats: ['jpg', 'jpeg', 'png'],
+    transformation: [{ width: 800, height: 800, crop: 'limit' }]
+  },
+});
+const upload = multer({ storage });
 
 // 🔸 Middleware
 app.use(cors({
@@ -23,33 +43,31 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// 🔸 MongoDB connection
+// 🔸 Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ MongoDB connection error:", err));
+  .catch(err => {
+    console.error("❌ MongoDB connection error:", err);
+    process.exit(1);
+  });
 
-// 🔸 Mongoose schema
+// 🔸 Report Schema
 const Report = mongoose.model('Report', {
   location: String,
   imageUrl: String,
   timestamp: { type: Date, default: Date.now },
 });
 
-// 🔸 File upload setup (Multer)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
-});
-const upload = multer({ storage });
-
-// 🔸 API: Submit report
+// 🔸 API: Submit Report
 app.post('/api/report', upload.single('photo'), async (req, res) => {
   try {
-    const location = req.body.location || (req.body.latitude && req.body.longitude
-      ? `Lat: ${req.body.latitude}, Lon: ${req.body.longitude}`
-      : 'Unknown');
+    const location = req.body.location || (
+      req.body.latitude && req.body.longitude
+        ? `Lat: ${req.body.latitude}, Lon: ${req.body.longitude}`
+        : 'Unknown'
+    );
 
-    const imageUrl = `/uploads/${req.file.filename}`;
+    const imageUrl = req.file.path;
     const report = new Report({ location, imageUrl });
     await report.save();
 
@@ -60,7 +78,7 @@ app.post('/api/report', upload.single('photo'), async (req, res) => {
   }
 });
 
-// 🔸 API: Get all reports (for events)
+// 🔸 API: Get Reports
 app.get('/api/events', async (req, res) => {
   try {
     const reports = await Report.find().sort({ timestamp: -1 });
@@ -71,21 +89,18 @@ app.get('/api/events', async (req, res) => {
   }
 });
 
-// 🔸 Serve uploaded images
-app.use('/uploads', express.static(uploadsDir));
-
-// 🔸 Serve frontend static files
+// 🔸 Serve static files
 app.use(express.static(path.join(__dirname, 'backend')));
 
-// 🔸 Serve individual HTML pages
-const htmlPages = ['index', 'report', 'events', 'ngo', 'userbdg'];
+// 🔸 Serve HTML pages
+const htmlPages = ['index', 'report', 'events', 'ngo', 'userbdg', 'ngobdg'];
 htmlPages.forEach(page => {
   app.get(`/${page === 'index' ? '' : page}`, (req, res) => {
     res.sendFile(path.join(__dirname, 'backend', `${page}.html`));
   });
 });
 
-// 🔸 Redirect root to frontend GitHub Pages (Render won't host frontend)
+// 🔸 Redirect root
 app.get('/', (req, res) => {
   res.redirect('https://yamunarpan.github.io');
 });

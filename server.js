@@ -61,6 +61,7 @@ const Report = mongoose.model('Report', {
 // 🔸 API: Submit Report
 app.post('/api/report', upload.single('photo'), async (req, res) => {
   try {
+    console.log('Uploaded file:', req.file);
     const location = req.body.location || (
       req.body.latitude && req.body.longitude
         ? `Lat: ${req.body.latitude}, Lon: ${req.body.longitude}`
@@ -112,4 +113,3 @@ app.get('/', (req, res) => {
 // 🔸 Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-console.log('Uploaded file:', req.file);

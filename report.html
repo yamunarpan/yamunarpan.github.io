@@ -250,18 +250,17 @@
   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
 
   const cloudRes = await fetch(CLOUDINARY_UPLOAD_URL, {
-    method: "POST",
-    body: formData
-  });
+  method: "POST",
+  body: formData
+});
+const cloudData = await cloudRes.json();
 
-  const cloudData = await cloudRes.json();
-  console.log("🌥 Cloudinary response:", cloudData); // 👈 log to debug
+if (!cloudData.secure_url) {
+  console.error("Cloudinary error:", cloudData);
+  throw new Error("❌ Cloudinary upload failed. Please check your upload preset or try a smaller image.");
+}
 
-  if (!cloudRes.ok || !cloudData.secure_url) {
-    throw new Error(cloudData.error?.message || "Cloudinary upload failed");
-  }
-
-  const imageUrl = cloudData.secure_url;
+const imageUrl = cloudData.secure_url;
 
   // Submit to backend
   const payload = {

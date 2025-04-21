@@ -255,13 +255,14 @@
 });
 const cloudData = await cloudRes.json();
 
-if (!cloudData.secure_url) {
-  console.error("Cloudinary error:", cloudData);
-  throw new Error("❌ Cloudinary upload failed. Please check your upload preset or try a smaller image.");
+if (!cloudRes.ok || !cloudData.secure_url) {
+  console.error("❌ Cloudinary Upload Error:", cloudData);
+  alert("Image upload failed. Please try again or check the upload preset.");
+  return;
 }
-
+console.log("Uploading to Cloudinary with preset:", CLOUDINARY_UPLOAD_PRESET);
+console.log("Selected file:", photo);
 const imageUrl = cloudData.secure_url;
-
   // Submit to backend
   const payload = {
     location,

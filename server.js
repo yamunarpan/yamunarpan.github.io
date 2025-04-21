@@ -67,7 +67,11 @@ app.post('/api/report', upload.single('photo'), async (req, res) => {
         : 'Unknown'
     );
 
-    const imageUrl = req.file.path;
+    const imageUrl = req.file?.secure_url;
+    if (!imageUrl) {
+    return res.status(400).json({ success: false, error: "Image upload failed" });
+    }
+
     const report = new Report({ location, imageUrl });
     await report.save();
 
@@ -108,3 +112,4 @@ app.get('/', (req, res) => {
 // 🔸 Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+console.log('Uploaded file:', req.file);

@@ -207,7 +207,7 @@
   <script>
     const API_BASE = "https://yamunarpan-github-io.onrender.com";
     const CLOUDINARY_UPLOAD_URL = "https://api.cloudinary.com/v1_1/dvikpg6wq/image/upload";
-    const CLOUDINARY_UPLOAD_PRESET = "unsigned"; // replace with your preset name if needed
+    const CLOUDINARY_UPLOAD_PRESET = "yamunarpan"; // replace with your preset name if needed
 
     window.onload = function () {
       const locationDisplay = document.getElementById("locationDisplay");
@@ -244,48 +244,55 @@
       }
 
       try {
-        // Upload image to Cloudinary
-        const formData = new FormData();
-        formData.append("file", photo);
-        formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+  // Upload image to Cloudinary
+  const formData = new FormData();
+  formData.append("file", photo);
+  formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
 
-        const cloudRes = await fetch(CLOUDINARY_UPLOAD_URL, {
-          method: "POST",
-          body: formData
-        });
-        const cloudData = await cloudRes.json();
-        const imageUrl = cloudData.secure_url;
+  const cloudRes = await fetch(CLOUDINARY_UPLOAD_URL, {
+    method: "POST",
+    body: formData
+  });
 
-        // Submit to backend
-        const payload = {
-          location,
-          imageUrl
-        };
+  const cloudData = await cloudRes.json();
+  console.log("🌥 Cloudinary response:", cloudData); // 👈 log to debug
 
-        const response = await fetch(`${API_BASE}/api/report`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
+  if (!cloudRes.ok || !cloudData.secure_url) {
+    throw new Error(cloudData.error?.message || "Cloudinary upload failed");
+  }
 
-        const data = await response.json();
-        if (data.success) {
-          alert("✅ Report submitted successfully!");
-          form.reset();
-          localStorage.setItem("reportCount", (parseInt(localStorage.getItem("reportCount") || "0") + 1));
+  const imageUrl = cloudData.secure_url;
 
-          const count = parseInt(localStorage.getItem("reportCount"));
-          if (count >= 4) {
-            document.getElementById("certificateBtn").style.display = "block";
-          }
-        } else {
-          throw new Error("Server error");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("❌ Failed to submit report.");
-      }
-    });
+  // Submit to backend
+  const payload = {
+    location,
+    imageUrl
+  };
+
+  const response = await fetch(`${API_BASE}/api/report`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await response.json();
+  if (data.success) {
+    alert("✅ Report submitted successfully!");
+    form.reset();
+    localStorage.setItem("reportCount", (parseInt(localStorage.getItem("reportCount") || "0") + 1));
+
+    const count = parseInt(localStorage.getItem("reportCount"));
+    if (count >= 4) {
+      document.getElementById("certificateBtn").style.display = "block";
+    }
+  } else {
+    throw new Error("Server error");
+  }
+} catch (err) {
+  console.error("❌ Error:", err);
+  alert("❌ Failed to submit report.\n" + err.message);
+}
+
   </script>
 </body>
 </html>

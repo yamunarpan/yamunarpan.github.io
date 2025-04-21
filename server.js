@@ -3,12 +3,8 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
-const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
-
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const app = express();
 
@@ -17,23 +13,6 @@ if (!process.env.MONGO_URL) {
   console.error('❌ MONGO_URL not defined. Set it in Render dashboard.');
   process.exit(1);
 }
-if (!process.env.CLOUDINARY_URL) {
-  console.error('❌ CLOUDINARY_URL not defined. Set it in Render dashboard.');
-  process.exit(1);
-}
-
-// 🔧 Cloudinary Config
-cloudinary.config(); // uses CLOUDINARY_URL automatically
-
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'yamuna-reports',
-    allowed_formats: ['jpg', 'jpeg', 'png'],
-    transformation: [{ width: 800, height: 800, crop: 'limit' }]
-  },
-});
-const upload = multer({ storage });
 
 // 🔸 Middleware
 app.use(cors({
@@ -59,18 +38,13 @@ const Report = mongoose.model('Report', {
 });
 
 // 🔸 API: Submit Report
-app.post('/api/report', upload.single('photo'), async (req, res) => {
+app.post('/api/report', async (req, res) => {
   try {
-    console.log('Uploaded file:', req.file);
-    const location = req.body.location || (
-      req.body.latitude && req.body.longitude
-        ? `Lat: ${req.body.latitude}, Lon: ${req.body.longitude}`
-        : 'Unknown'
-    );
+    const location = req.body.location || 'Unknown';
+    const imageUrl = req.body.imageUrl;
 
-    const imageUrl = req.file?.secure_url;
     if (!imageUrl) {
-    return res.status(400).json({ success: false, error: "Image upload failed" });
+      return res.status(400).json({ success: false, error: "Image URL is missing" });
     }
 
     const report = new Report({ location, imageUrl });

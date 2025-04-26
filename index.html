@@ -1,344 +1,219 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full w-full">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>YamunArpan</title>
-  <link rel="icon" type="image/x-icon" href="/YamunArpan.png">
-  <meta name="description" content="Join the mission to clean the Yamuna River." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/2c15cc0cc7.js" crossorigin="anonymous"></script>
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
-    }
-  </script>
-  <script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
-<zapier-interfaces-chatbot-embed is-popup='true' chatbot-id='cm9pg2umf0022145k0a8qbuvj'></zapier-interfaces-chatbot-embed>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSM Classes - Shaping Bright Futures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Base styling */
-body {
-  font-family: 'Inter', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff;
-  color: #111827;
-  transition: background 0.3s, color 0.3s;
-}
-
-a {
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-/* Dark mode */
-body.dark {
-  background-color: #111827;
-  color: #f9fafb;
-}
-
-body.dark .btn {
-  background-color: #374151;
-  color: white;
-}
-
-body.dark .btn-outline {
-  border-color: white;
-  color: white;
-}
-
-/* Navbar */
-.navbar {
-  padding: 1rem 2rem;
-  background-color: #f8fafc;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.brand img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-
-.brand h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.nav-buttons .btn {
-  margin-left: 0.5rem;
-}
-
-/* Buttons */
-.btn {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.375rem;
-  background-color: #2563eb;
-  color: white;
-  font-weight: 600;
-}
-
-.btn-light {
-  background-color: white;
-  color: #2563eb;
-}
-
-.btn-outline {
-  background: transparent;
-  border: 2px solid white;
-  color: white;
-}
-
-/* Hero */
-.hero {
-  padding: 3rem 2rem;
-  text-align: center;
-  background: linear-gradient(to right, #3b82f6, #10b981);
-  color: white;
-}
-
-.hero h2 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.hero-buttons {
-  margin-top: 1.5rem;
-}
-
-/* Sections */
-.section {
-  padding: 3rem 2rem;
-}
-
-.section h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-/* Stats grid */
-.impact-stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.highlight-card {
-  flex: 1 1 220px;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  transition: transform 0.2s;
-}
-
-.highlight-card:hover {
-  transform: translateY(-4px);
-}
-
-.stat-number {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-/* Theme cards */
-.blue {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.green {
-  background: #dcfce7;
-  color: #166534;
-}
-
-.purple {
-  background: #f3e8ff;
-  color: #7e22ce;
-}
-
-.orange {
-  background: #ffedd5;
-  color: #c2410c;
-}
-
-.white {
-  background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: inherit;
-}
-/* Base styles remain the same (see previous response above) */
-
-/* Responsive layout tweaks */
-@media (max-width: 768px) {
-  .nav-container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .nav-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .hero h2 {
-    font-size: 1.75rem;
-  }
-
-  .hero p {
-    font-size: 1rem;
-  }
-
-  .impact-stats {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .highlight-card {
-    width: 100%;
-    max-width: 400px;
-  }
-
-  .section {
-    padding: 2rem 1rem;
-  }
-
-  .hero {
-    padding: 2rem 1rem;
-  }
-
-  .btn {
-    width: 100%;
-    text-align: center;
-  }
-
-  .hero-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .brand {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .brand img {
-    width: 60px;
-    height: 60px;
-  }
-
-  .brand h1 {
-    font-size: 1.25rem;
-  }
-
-  .stat-number {
-    font-size: 1.25rem;
-  }
-}
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #2563eb;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header img.logo {
+      height: 50px;
+      margin-right: 1rem;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #dbeafe;
+    }
+    .banner {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .container {
+      padding: 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+    section {
+      margin-bottom: 3rem;
+    }
+    section h2, section h3 {
+      color: #1d4ed8;
+      margin-bottom: 1rem;
+    }
+    .highlight {
+      color: #2563eb;
+      font-weight: 600;
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+    .reviews {
+      background: #eff6ff;
+      padding: 1.2rem;
+      border-left: 4px solid #3b82f6;
+      margin-top: 1rem;
+      border-radius: 8px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    footer {
+      background: #1e3a8a;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      font-weight: 600;
+    }
+    .button-bar a {
+      display: inline-block;
+      margin: 0.5rem 1rem 0.5rem 0;
+      padding: 10px 20px;
+      background: #3b82f6;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .button-bar a:hover {
+      background: #1d4ed8;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 0.5rem;
+      }
+      nav a {
+        margin: 0 10px 0 0;
+      }
+    }
   </style>
 </head>
-<body class="h-full w-full">
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="brand">
-        <img src="YamunArpan.png" alt="Yamuna Cleanup Mission Logo" />
-        <h1>YamunArpan</h1>
-      </div>
-      <div class="nav-buttons">
-        <button class="btn" onclick="toggleDarkMode()">🌙</button>
-        <a href="/"><button class="btn btn-light">Home</button></a>
-        <a href="report"><button class="btn">Report</button></a>
-        <a href="ngo"><button class="btn">NGO</button></a>
-        <a href="events"><button class="btn">Events</button></a>
-      </div>
-    </div>
+<body>
+
+<header>
+  <div style="display: flex; align-items: center;">
+    <img src="logo.png" alt="JSM Logo" class="logo">
+    <h1>JSM Coaching Classes</h1>
+  </div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Library</a>
+    <a href="#">Staff</a>
+    <a href="#">Enquiry</a>
+    <a href="#">Admin Login</a>
   </nav>
+</header>
 
-  <header class="hero">
-    <h2>Join the Movement to Clean Yamuna</h2>
-    <p>Together, we can restore the sacred Yamuna River to its pristine glory through community action and innovation.</p>
-    <div class="hero-buttons">
-      <a href="report"><button class="btn btn-light">Get Started</button></a>
-      <a href="https://en.wikipedia.org/wiki/Yamuna_Action_Plan" target="_blank"><button class="btn btn-outline">Learn More</button></a>
+<img src="banner.jpg" alt="JSM Banner" class="banner">
+
+<div class="container">
+  <section>
+    <h2>Shaping Bright Futures Through Quality Education</h2>
+    <p>Located in the educational hub of <span class="highlight">Mayur Vihar, Delhi</span>, JSM Coaching Classes has been a trusted name in academic excellence for years. Our mission is simple — to empower students with knowledge, confidence, and results.</p>
+  </section>
+
+  <section>
+    <h3>👨‍🏫 Why Choose JSM?</h3>
+    <ul>
+      <li><strong>Experienced Faculty:</strong> Highly qualified mentors who focus on concept clarity over rote learning.</li>
+      <li><strong>Personalized Attention:</strong> Small batches ensure every student's doubts are addressed.</li>
+      <li><strong>Modern Teaching:</strong> Smart classrooms, digital resources, and interactive sessions.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>📚 Courses We Offer</h3>
+    <p><strong>For School Students (Classes 6 to 12 – All Streams)</strong></p>
+    <ul>
+      <li>CBSE Board Preparation</li>
+      <li>Science & Commerce Coaching</li>
+      <li>Subjects: Maths, Physics, Chemistry, Biology, English, Accounts, and more</li>
+    </ul>
+    <p><strong>For Competitive Exams</strong></p>
+    <ul>
+      <li>JEE (Mains + Advanced)</li>
+      <li>NEET</li>
+      <li>CUET, NTSE, Olympiads, etc.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>📝 Our Methodology</h3>
+    <ul>
+      <li><strong>Regular Testing:</strong> Weekly tests, progress tracking, and parent updates</li>
+      <li><strong>Study Material:</strong> Curated notes, mock tests, revision guides</li>
+      <li><strong>Doubt Sessions:</strong> One-on-one doubt clearing for 100% understanding</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>🌟 Our Results Speak for Themselves</h3>
+    <p>Hundreds of JSM students have scored top marks and secured seats in prestigious colleges across India.</p>
+  </section>
+
+  <section>
+    <h3>📍 Location & Facilities</h3>
+    <ul>
+      <li>Mayur Vihar, Phase I, Delhi</li>
+      <li>Air-conditioned classrooms</li>
+      <li>Peaceful learning environment</li>
+      <li>Easy Metro & transport access</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>💬 Hear From Our Students</h3>
+    <div class="reviews">
+      "JSM helped me not only improve my marks but also my confidence. The teachers are so supportive!"<br>
+      <em>– Riya S., Class 12</em>
     </div>
-  </header>
+    <div class="reviews">
+      "Joining JSM was the best decision before NEET. The mock tests and doubt sessions made all the difference."<br>
+      <em>– Akash M., Medical Aspirant</em>
+    </div>
+  </section>
 
-  <main>
-    <section class="section">
-      <h2>Our Impact</h2>
-      <div class="impact-stats">
-        <div class="highlight-card blue">
-          <div>📊</div>
-          <h3>Reports Filed</h3>
-          <p class="stat-number">123+</p>
-          <p>Cleanup issues reported</p>
-        </div>
-        <div class="highlight-card green">
-          <div>🏢</div>
-          <h3>NGOs</h3>
-          <p class="stat-number">45+</p>
-          <p>Active organizations</p>
-        </div>
-        <div class="highlight-card purple">
-          <div>👥</div>
-          <h3>Volunteers</h3>
-          <p class="stat-number">780+</p>
-          <p>Community members</p>
-        </div>
-        <div class="highlight-card orange">
-          <div>📅</div>
-          <h3>Events</h3>
-          <p class="stat-number">30+</p>
-          <p>Clean-up events held</p>
-        </div>
-      </div>
-    </section>
+  <section>
+    <h3>📞 Get in Touch</h3>
+    <p><strong>Visit Us:</strong> JSM Coaching Classes, Mayur Vihar, Delhi</p>
+    <p><strong>Call:</strong> +91-XXXXXXXXXX</p>
+    <p><strong>Email:</strong> info@jsmcoaching.in</p>
+    <p><strong>Website:</strong> www.jsmcoaching.in</p>
+    <p>Follow us on: 📘 Facebook | 📸 Instagram | 🧑‍💻 YouTube</p>
+  </section>
+</div>
 
-    <section class="section">
-      <h2>How You Can Help</h2>
-      <div class="impact-stats">
-        <div class="highlight-card white">
-          <div>📸</div>
-          <h3>Report Issues</h3>
-          <p>Spot pollution? Take a photo and report it instantly. Our AI will analyze and prioritize cleanup efforts.</p>
-        </div>
-        <div class="highlight-card white">
-          <div>🤝</div>
-          <h3>Join Events</h3>
-          <p>Participate in local cleanup events. Meet like-minded people and make a real difference.</p>
-        </div>
-        <div class="highlight-card white">
-          <div>💡</div>
-          <h3>Share Ideas</h3>
-          <p>Have innovative solutions? Share your ideas to help improve our cleanup efforts and engagement.</p>
-        </div>
-      </div>
-    </section>
-  </main>
+<footer>
+  🚀 JSM Coaching Classes — Where Success Begins
+</footer>
+
 </body>
 </html>
